@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:demo.db
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+app:
+  repo:
+    type: inmemory  # or "jpa" to use SQLite/Postgres
