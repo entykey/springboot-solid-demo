@@ -1,9 +1,0 @@
-com\example\demo\DemoApplication.class
-com\example\demo\service\UserServiceImpl.class
-com\example\demo\service\UserService.class
-com\example\demo\controller\UserController.class
-com\example\demo\config\RepositoryConfig.class
-com\example\demo\model\User.class
-com\example\demo\repository\UserRepositoryInMemory.class
-com\example\demo\repository\jpa\UserJpaRepository.class
-com\example\demo\repository\UserRepository.class
