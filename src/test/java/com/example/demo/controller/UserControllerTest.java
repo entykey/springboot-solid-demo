@@ -82,13 +82,40 @@ class UserControllerTest {
                .andExpect(jsonPath("$.email").value("charlie@mail.com"));
     }
 
+
+    // Trong JUnit 5, mỗi test case là độc lập 100%
+    // 👉 Mỗi test chạy xong, framework reset lại toàn bộ context mock, trừ khi bạn cấu hình đặc biệt (VD: @TestInstance(Lifecycle.PER_CLASS) hoặc @DirtiesContext).
+
+    // Cụ thể:
+    // * @BeforeEach chạy trước mỗi test, tạo lại MockMvc và các mock.
+    // * Mockito mock không lưu dữ liệu giữa các test — chúng chỉ trả về những gì bạn when(...).thenReturn(...) trong phạm vi test hiện tại.
+    
+    
+    // Test báo sai do nhận được 404 thay vì 204
+    // @Test
+    // void shouldDeleteUser() throws Exception {
+    //     doNothing().when(userService).deleteUser(1L);
+
+    //     mockMvc.perform(delete("/users/1"))
+    //         .andExpect(status().isNoContent()); // ✅ 204 thay vì 200
+
+    //     verify(userService, times(1)).deleteUser(1L);
+    // }
+
+    // test mock giả định chuẩn
     @Test
     void shouldDeleteUser() throws Exception {
+        // ✅ Giả lập là user tồn tại trước (mock hàm getUser(1L))
+        when(userService.getUser(1L)).thenReturn(Optional.of(new User("John", "john@example.com")));
+
+        // ✅ Giả lập hành động xóa không lỗi
         doNothing().when(userService).deleteUser(1L);
 
+        // ✅ Gọi API và kỳ vọng HTTP 204
         mockMvc.perform(delete("/users/1"))
-               .andExpect(status().isOk());
+            .andExpect(status().isNoContent());
 
+        // ✅ Kiểm tra hàm xóa được gọi đúng
         verify(userService, times(1)).deleteUser(1L);
     }
 }
