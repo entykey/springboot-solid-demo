@@ -18,6 +18,7 @@ public class UserController {
         this.service = service;
     }
 
+    // 🟢 Lấy tất cả user
     @GetMapping
     public List<User> getAll() {
         return service.getAllUsers();
@@ -32,6 +33,7 @@ public class UserController {
     // }
 
     // No raw exceptions, real 404 Not Found behavior
+    // 🟣 Lấy user theo ID
     @GetMapping("/{id}")
     public User getById(@PathVariable Long id) {
         return service.getUser(id)
@@ -39,13 +41,32 @@ public class UserController {
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
+    // 🟡 Tạo user mới
     @PostMapping
     public User create(@RequestBody User user) {
         return service.saveUser(user);
     }
 
+    // 🔵 Cập nhật user
+    @PutMapping("/{id}")
+    public User update(@PathVariable Long id, @RequestBody User updatedUser) {
+        return service.getUser(id)
+                .map(existing -> {
+                    existing.setName(updatedUser.getName());
+                    existing.setEmail(updatedUser.getEmail());
+                    return service.saveUser(existing);
+                })
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    // 🔴 Xóa user
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
+        if (service.getUser(id).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
         service.deleteUser(id);
     }
 }

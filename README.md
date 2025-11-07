@@ -12,7 +12,105 @@ mvn clean
 mvn install
 
 # Then run app
-mvn spring-boot:run
+# mvn spring-boot:run
+
+# Dùng PostgreSQL
+mvn spring-boot:run -Dspring-boot.run.profiles=postgres
+
+# Dùng H2
+mvn spring-boot:run -Dspring-boot.run.profiles=h2
+```
+
+## Bộ lệnh curl cơ bản để test CRUD API Spring Boot (RESTful)
+### 🟢 1️⃣ CREATE (POST) – thêm user mới
+
+```bash
+curl -X POST http://localhost:8080/users \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Alice", "email": "alice@example.com"}'
+```
+
+Kết quả mẫu:
+
+```json
+{"id":1,"name":"Alice","email":"alice@example.com"}
+```
+
+---
+
+### 🟡 2️⃣ READ ALL (GET) – lấy danh sách tất cả user
+
+```bash
+curl http://localhost:8080/users
+```
+
+Kết quả mẫu:
+
+```json
+[
+  {"id":1,"name":"Alice","email":"alice@example.com"},
+  {"id":2,"name":"Bob","email":"bob@gmail.com"}
+]
+```
+
+---
+
+### 🟣 3️⃣ READ ONE (GET) – lấy thông tin 1 user theo id
+
+```bash
+curl http://localhost:8080/users/1
+```
+
+Kết quả mẫu:
+
+```json
+{"id":1,"name":"Alice","email":"alice@example.com"}
+```
+
+---
+
+### 🔵 4️⃣ UPDATE (PUT) – cập nhật user theo id
+
+```bash
+curl -X PUT http://localhost:8080/users/1 \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Alice Updated", "email": "alice@newmail.com"}'
+```
+
+Kết quả mẫu:
+
+```json
+{"id":1,"name":"Alice Updated","email":"alice@newmail.com"}
+```
+
+---
+
+### 🔴 5️⃣ DELETE (DELETE) – xoá user theo id
+
+```bash
+curl -X DELETE http://localhost:8080/users/1
+```
+
+Kết quả mẫu (204 No Content hoặc 200 OK tùy controller):
+
+```
+(no content)
+```
+
+---
+
+### ⚙️ Gợi ý thêm:
+
+Nếu bạn muốn xem **header** và **status code**, thêm `-i`:
+
+```bash
+curl -i http://localhost:8080/users
+```
+
+Hoặc để **in đẹp JSON**:
+
+```bash
+curl http://localhost:8080/users | jq
 ```
 
 Maven will automatically download everything (Spring Boot, JPA, H2, SQLite JDBC, etc.).
