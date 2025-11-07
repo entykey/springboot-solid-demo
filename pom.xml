@@ -16,10 +16,15 @@
   <version>1.0.0</version>
   <name>springboot-solid-demo</name>
   <description>Spring Boot SOLID demo with switchable databases</description>
+
   <properties>
     <!-- <java.version>23</java.version> -->
     <java.version>21</java.version>
+
+    <!-- Sử dụng version hiện tại của JVM đang chạy -->
+    <!-- <maven.compiler.release>${java.specification.version}</maven.compiler.release> -->
   </properties>
+  
   <dependencies>
     <!-- Spring Web -->
     <dependency>

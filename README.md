@@ -17,8 +17,18 @@ mvn install
 # Dùng PostgreSQL
 mvn spring-boot:run -Dspring-boot.run.profiles=postgres
 
+# Dùng PostgreSQL + giảm redundant logs
+mvn spring-boot:run \
+  -Dspring-boot.run.profiles=postgres \
+  -Dspring-boot.run.arguments="--spring.main.log-startup-info=false --spring.output.ansi.enabled=ALWAYS"
+
 # Dùng H2
 mvn spring-boot:run -Dspring-boot.run.profiles=h2
+
+# running test
+mvn --no-transfer-progress test \
+  -Dspring.main.banner-mode=off \
+  -Dlogging.level.root=ERROR
 ```
 
 ## Bộ lệnh curl cơ bản để test CRUD API Spring Boot (RESTful)
