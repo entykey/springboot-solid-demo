@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Primary;  // for symbol Primary
 
 
 /*
-Fixex this by adding @Primary to userRepository()
+Fixed this by adding @Primary to userRepository()
 Hibernate: drop table if exists user cascade
 2025-11-07T00:09:40.624+07:00 ERROR 4252 --- [           main] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: drop table if exists user cascade
 2025-11-07T00:09:40.656+07:00 ERROR 4252 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
@@ -39,8 +39,11 @@ public class RepositoryConfig {
     @Primary  // 👈 Add this line
     public UserRepository userRepository() {
         return switch (repoType.toLowerCase()) {
+            // set project to use InMemoryRepo
             // case "jpa" -> jpaRepo;
             // default -> inMemoryRepo;
+
+            // set project to use jpaRepo
             default -> jpaRepo;
         };
     }
